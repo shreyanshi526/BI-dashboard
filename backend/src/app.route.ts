@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import userRoutes from './modules/user/user.route';
 import transactionRoutes from './modules/transaction/transaction.route';
 import dashboardRoutes from './modules/dashboard/dashboard.route';
+import dataImportRoutes from './modules/data-import/data-import.route';
 import { successResponse } from './utils/response.dto';
 
 const router = Router();
@@ -17,6 +18,7 @@ router.get('/api/health', (_req: Request, res: Response) => {
 router.use('/api', userRoutes);
 router.use('/api', transactionRoutes);
 router.use('/api', dashboardRoutes);
+router.use('/api/import', dataImportRoutes);
 
 export default router;
 

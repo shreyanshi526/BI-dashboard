@@ -45,6 +45,9 @@ COPY --from=build --chown=nodejs:nodejs /app/dist ./dist
 # Copy .env.example for validation (not .env for security)
 COPY --chown=nodejs:nodejs .env.example ./.env.example
 
+# Copy package.json for import script (needs ts-node in dev mode)
+COPY --chown=nodejs:nodejs package*.json ./
+
 # Verify dist folder was copied
 RUN ls -la /app/dist/ || (echo "Copy failed - dist folder not found" && exit 1)
 

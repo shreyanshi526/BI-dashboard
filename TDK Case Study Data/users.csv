@@ -1,0 +1,51 @@
+User_ID,User_Name,Region,Is_Active_Sub,Signup_Date,Department,Company_Name
+3b88bef1-5f74-4e43-8097-05e553525b5d,user_3477,EU,FALSE,09/11/23,Marketing,TechGlobal
+810b60e5-2868-4612-9e5f-2801a25f24b9,user_4784,CA,TRUE,11/11/23,Internal Tools,BlueWave Logistics
+8993168a-a8b3-4be9-a7a2-d6a7e1a51320,user_3514,JP,TRUE,21/12/23,Support Automation,TechGlobal
+8f510e91-b9dc-4262-adc2-63c1b03db0da,user_8580,JP,FALSE,26/11/23,Internal Tools,Omicron Solutions
+50a02e9a-476b-4549-8fcf-545f2de13d59,user_7106,AU,FALSE,01/04/24,Support Automation,Omicron Solutions
+a9302fb6-6259-4db5-9890-9b821fbd4566,user_6540,CA,TRUE,10/01/24,Marketing,BlueWave Logistics
+c99248cd-10f3-4b3b-a93c-fc8cf411e4d6,user_3076,CA,FALSE,27/11/23,Support Automation,Apex Fin
+ae21e13c-9a8b-417c-85e7-c2b9ef75f019,user_9402,IN,FALSE,28/12/23,Internal Tools,Omicron Solutions
+42a5695d-310d-4f35-8b51-d2c24b47a577,user_5666,US,TRUE,19/04/24,Data Science,BlueWave Logistics
+dfd90ce5-3594-4b34-aaa6-bc3f15fe602c,user_3969,US,TRUE,03/01/24,Support Automation,Vertex Health
+fabd508f-927e-4588-84b4-56cdbcb805fd,user_1900,AU,TRUE,20/01/24,Marketing,TechGlobal
+0ccb168a-4e5f-400f-a698-a6490930820f,user_8177,EU,TRUE,13/02/24,Internal Tools,TechGlobal
+7feee8c2-73eb-48af-aaf6-45c9195036b9,user_1603,IN,TRUE,02/12/23,R&D AI Lab,BlueWave Logistics
+c6239b41-ed3e-4274-b41c-1e6db80aa06e,user_7624,AU,TRUE,19/03/24,Internal Tools,TechGlobal
+7c0f179a-9189-4fdb-b04c-57a3418118f5,user_1889,CA,TRUE,23/11/23,Marketing,Apex Fin
+55510c19-eb83-46ac-9ec3-dfc28d454007,user_5550,AU,TRUE,04/04/24,Data Science,TechGlobal
+480a1fa2-d150-417b-923f-880ccdddc9e5,user_9362,EU,TRUE,28/02/24,Data Science,Vertex Health
+df1cb5cc-06e9-4942-ab60-ca002a326e40,user_5791,US,TRUE,17/11/23,Data Science,Omicron Solutions
+6c6b8c98-7673-457b-8623-d6d6ab1079ab,user_6651,EU,TRUE,22/02/24,R&D AI Lab,TechGlobal
+fdeaaa13-32e5-465a-b156-2f378efd304f,user_5334,CA,TRUE,09/12/23,Marketing,Apex Fin
+b3ee71c8-f3b2-44ca-ba9b-7243faee0f13,user_9076,US,TRUE,13/04/24,Internal Tools,BlueWave Logistics
+11890ecf-98af-4849-9e20-06181a1a0487,user_2637,IN,TRUE,26/02/24,R&D AI Lab,Omicron Solutions
+a1c8ed33-534f-4e3e-8ba5-2403140e4ccb,user_9370,JP,TRUE,01/01/24,Data Science,BlueWave Logistics
+5205697b-328e-4c45-8682-9daf4563a7b8,user_1363,AU,TRUE,18/04/24,Support Automation,Omicron Solutions
+05accb04-8663-4491-9fbe-2dcc6ef01d4b,user_2612,EU,TRUE,13/01/24,Support Automation,BlueWave Logistics
+2993d8c5-e8aa-46b2-933f-c30271412d9b,user_4255,US,TRUE,21/11/23,Internal Tools,Omicron Solutions
+28f45a67-466e-4bd4-b2f8-730091a05a0e,user_7860,CA,FALSE,23/03/24,Marketing,Vertex Health
+45aca5d6-edfb-41bb-a08c-ecf83ad28c63,user_7801,IN,TRUE,28/02/24,Data Science,Vertex Health
+7bbf09da-a009-4866-8a04-890bbf456b91,user_5399,IN,TRUE,22/12/23,Data Science,Vertex Health
+dc153bba-567a-4307-be16-8f3b866c8f3c,user_9445,IN,TRUE,26/03/24,R&D AI Lab,Vertex Health
+c3ab31bd-dd81-417e-bf38-2d534bd9156e,user_6932,US,TRUE,20/12/23,Data Science,Apex Fin
+c7362e9b-f856-4df6-a5cd-32a15519eba9,user_9848,US,FALSE,06/03/24,R&D AI Lab,TechGlobal
+f1b112ca-7b16-44ce-b911-ecb5aadd3a19,user_6714,JP,FALSE,19/03/24,Internal Tools,BlueWave Logistics
+f3b0c7f8-75cd-4d70-8624-2553d3e78d4d,user_2150,EU,TRUE,30/03/24,Internal Tools,Apex Fin
+5c405a62-0d74-44ec-8605-20cf4f25b63b,user_3498,AU,TRUE,22/12/23,R&D AI Lab,Apex Fin
+f9af646d-fbd4-4507-b308-65883f0f197d,user_4232,JP,TRUE,25/01/24,Internal Tools,TechGlobal
+67eda783-d1cb-41c4-bcef-5da8990066d6,user_7788,JP,TRUE,09/04/24,R&D AI Lab,Omicron Solutions
+a5d3aa20-5e0e-4d6f-a9c0-c5904b7284d4,user_6936,JP,TRUE,06/02/24,Marketing,Apex Fin
+67ea928c-daa2-49aa-b4b4-7c20d824f584,user_8463,IN,TRUE,19/02/24,Marketing,Vertex Health
+4a72c9eb-0b23-479c-b576-9a0e0a5a2e4f,user_9572,US,FALSE,06/03/24,R&D AI Lab,Apex Fin
+36103f56-cace-43bf-b362-8b2f22891233,user_4326,US,TRUE,24/03/24,Support Automation,BlueWave Logistics
+5bbf57de-0295-4c7c-b02b-82bc06299e9d,user_9983,US,TRUE,20/02/24,R&D AI Lab,TechGlobal
+435f1cc1-5e84-4675-9986-1fa32582abef,user_6841,US,TRUE,19/11/23,R&D AI Lab,BlueWave Logistics
+02164e85-eec9-4d3c-9458-6fa8ceab385e,user_5556,US,TRUE,23/03/24,R&D AI Lab,Vertex Health
+7e6eb962-e5f3-4bb9-8a00-90f97b0322aa,user_7940,JP,TRUE,26/11/23,R&D AI Lab,BlueWave Logistics
+333103bd-15c8-4475-8335-163dc5eb10bc,user_2482,US,TRUE,28/02/24,Internal Tools,TechGlobal
+2fca96bd-fbec-4d7f-a07f-d0d89cfc96b5,user_5712,CA,FALSE,05/01/24,Support Automation,Omicron Solutions
+ee8f6ae0-6a96-4121-9f86-967cbb9dc533,user_8753,US,TRUE,04/12/23,Data Science,Apex Fin
+2cd725ca-8dd2-4589-a61e-a2ad7e3a36ae,user_5054,EU,TRUE,22/04/24,Data Science,TechGlobal
+33dcfb61-7651-4dfe-989f-4abe9406f27e,user_8131,EU,TRUE,05/03/24,R&D AI Lab,TechGlobal

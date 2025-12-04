@@ -30,8 +30,9 @@ export const validateEnv = (): void => {
   });
 
   // Check if all required variables are present
+  // MONGODB_URI is optional if using Docker MongoDB service (has default in docker-compose.yml)
   requiredVars.forEach((varName) => {
-    if (!process.env[varName]) {
+    if (!process.env[varName] && varName !== 'MONGODB_URI') {
       missingVars.push(varName);
     }
   });

@@ -281,6 +281,80 @@ getUserById = asyncHandler(async (req: Request, res: Response): Promise<void> =>
 - Modular route injection
 - Health monitoring
 
+### 9. CSV Data Ingestion Pipeline
+
+**Architecture Overview:**
+The application supports CSV data ingestion through multiple channels:
+
+```
+CSV Files → Parser → Service → Repository → MongoDB
+```
+
+**Components:**
+
+1. **CSV Parser Utility (`utils/csvParser.ts`)**
+   - `parseFile<T>()`: Parses CSV files from file system (for CLI script)
+   - `parseString<T>()`: Parses CSV content from string/buffer (for API uploads)
+   - Uses `csv-parse` library with type-safe parsing
+   - Configurable options (skip empty lines, trim, column mapping)
+
+2. **Data Import Service (`modules/data-import/data-import.service.ts`)**
+   - `importUsers(filePath)`: Imports users from file path
+   - `importUsersFromBuffer(buffer)`: Imports users from memory buffer
+   - `importTransactions(filePath)`: Imports transactions from file path
+   - `importTransactionsFromBuffer(buffer)`: Imports transactions from memory buffer
+   - `importAll()` / `importAllFromBuffers()`: Batch import both datasets
+   - Data validation and transformation
+   - Batch processing for transactions (100 records per batch)
+   - Upsert operations (update existing or insert new)
+   - Error tracking per record
+
+3. **Data Import Controller (`modules/data-import/data-import.controller.ts`)**
+   - Uses Multer with memory storage (no file system writes)
+   - Handles file uploads via multipart/form-data
+   - Three endpoints:
+     - `POST /api/import/users` - Single file upload
+     - `POST /api/import/transactions` - Single file upload
+     - `POST /api/import/all` - Multiple file uploads
+   - Processes files in memory (Buffer) to avoid permission issues in Docker
+
+4. **Import Script (`scripts/import-data.ts`)**
+   - Command-line tool for bulk data import
+   - Supports both local and Docker environments
+   - Auto-detects environment (checks for `/app/data` mount)
+   - Validates file existence before import
+   - Provides detailed import statistics
+
+**Data Flow:**
+
+**API Upload Flow:**
+```
+Client → Multer (memory) → Buffer → CSVParser.parseString() 
+→ DataImportService → Mongoose Models → MongoDB
+```
+
+**CLI Script Flow:**
+```
+File System → CSVParser.parseFile() → DataImportService 
+→ Mongoose Models → MongoDB
+```
+
+**Key Features:**
+- **Memory Storage**: API uploads use memory storage to avoid Docker permission issues
+- **Batch Processing**: Transactions imported in batches of 100 for performance
+- **Upsert Logic**: Uses `findOneAndUpdate` with `upsert: true` to handle duplicates
+- **Error Resilience**: Continues processing even if individual records fail
+- **Type Safety**: Full TypeScript typing for CSV records and parsed data
+- **Environment Detection**: Automatically detects Docker vs local environment
+
+**Benefits:**
+- Flexible ingestion (API or CLI)
+- No file system dependencies for API uploads
+- Efficient batch processing
+- Robust error handling
+- Type-safe data transformation
+- Docker-friendly (no permission issues)
+
 ---
 
 ## Design Patterns Used
@@ -484,9 +558,13 @@ backend/src/
 ├── modules/           # Feature modules
 │   ├── user/         # User module
 │   ├── transaction/ # Transaction module
-│   └── dashboard/    # Dashboard module
+│   ├── dashboard/    # Dashboard module
+│   └── data-import/  # CSV data import module
+├── scripts/          # Utility scripts
+│   └── import-data.ts # CLI data import script
 ├── middleware/        # Express middleware
 ├── utils/            # Shared utilities
+│   └── csvParser.ts  # CSV parsing utility
 ├── config/           # Configuration
 └── constants/        # Application constants
 ```

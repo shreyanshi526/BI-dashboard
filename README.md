@@ -8,7 +8,7 @@ A full-stack business intelligence dashboard for analyzing AI model usage, costs
 
 - **Node.js** 20.x or higher
 - **Docker** and **Docker Compose** (for containerized deployment)
-- **MongoDB** connection string (MongoDB Atlas or local instance)
+- **MongoDB** (included as Docker service, or provide connection string for external MongoDB)
 
 ### Option 1: Docker (Recommended)
 
@@ -18,7 +18,7 @@ A full-stack business intelligence dashboard for analyzing AI model usage, costs
    cd tdk-bi-dashboard
    ```
 
-2. **Set up environment variables**
+2. **Set up environment variables (Optional)**
    
    Create `backend/.env` file:
    ```bash
@@ -26,11 +26,14 @@ A full-stack business intelligence dashboard for analyzing AI model usage, costs
    cp .env.example .env
    ```
    
-   Edit `backend/.env` with your configuration:
+   **For Docker MongoDB (default):**
+   - Leave `MONGODB_URI` empty or comment it out
+   - The application will automatically use `mongodb://mongodb:27017/tdk_dashboard`
+   
+   **For External MongoDB (e.g., MongoDB Atlas):**
    ```env
    PORT=3001
    MONGODB_URI=mongodb+srv://your-connection-string
-   MONGODB_DB_NAME=tdk_dashboard
    NODE_ENV=production
    ```
 
@@ -38,11 +41,28 @@ A full-stack business intelligence dashboard for analyzing AI model usage, costs
    ```bash
    docker-compose up -d
    ```
+   
+   This will start:
+   - **MongoDB** service (port 27017)
+   - **Backend** service (port 3001)
+   - **Frontend** service (port 8080)
+   - **Data Importer** service (runs once to import CSV data if available)
 
-4. **Access the application**
+4. **Import CSV data (if needed)**
+   
+   The `data-importer` service runs automatically on startup. To manually import:
+   ```bash
+   # Place CSV files in "TDK Case Study Data" folder at project root
+   docker-compose run --rm data-importer
+   ```
+   
+   Or use the API endpoints (see Data Import section below).
+
+5. **Access the application**
    - Frontend: http://localhost:8080
    - Backend API: http://localhost:3001
    - Health Check: http://localhost:3001/api/health
+   - MongoDB: localhost:27017 (if using Docker MongoDB)
 
 ### Option 2: Local Development
 
@@ -70,7 +90,13 @@ A full-stack business intelligence dashboard for analyzing AI model usage, costs
    npm run build
    ```
 
-5. **Start the server**
+5. **Import CSV data (optional)**
+   ```bash
+   # Place CSV files in "TDK Case Study Data" folder at project root
+   npm run import-data
+   ```
+
+6. **Start the server**
    ```bash
    # Production
    npm start
@@ -140,22 +166,86 @@ tdk-bi-dashboard/
 | Variable | Description | Required | Default |
 |----------|-------------|----------|---------|
 | `PORT` | Server port | No | `3001` |
-| `MONGODB_URI` | MongoDB connection string | **Yes** | - |
-| `MONGODB_DB_NAME` | Database name | No | `tdk_dashboard` |
+| `MONGODB_URI` | MongoDB connection string | **No** | `mongodb://mongodb:27017/tdk_dashboard` (Docker) |
 | `NODE_ENV` | Environment (development/production) | No | `development` |
+
+**Note:** If `MONGODB_URI` is not set, the application will use the Docker MongoDB service automatically.
 
 ### Frontend
 
 Frontend uses Vite proxy configuration. No environment variables needed for local development.
 
+## 📥 Data Import
+
+### CSV File Import
+
+The application supports importing data from CSV files. You can import data in two ways:
+
+#### Option 1: Command Line Script
+
+1. **Place CSV files** in the `TDK Case Study Data` folder at the project root:
+   ```
+   TDK Case Study Data/
+   ├── users.csv
+   └── transactions.csv
+   ```
+
+2. **Run the import script:**
+   ```bash
+   cd backend
+   npm run import-data
+   ```
+
+#### Option 2: API Endpoints
+
+Upload CSV files via API endpoints:
+
+**Import Users:**
+```bash
+curl -X POST http://localhost:3001/api/import/users \
+  -F "users=@path/to/users.csv"
+```
+
+**Import Transactions:**
+```bash
+curl -X POST http://localhost:3001/api/import/transactions \
+  -F "transactions=@path/to/transactions.csv"
+```
+
+**Import Both:**
+```bash
+curl -X POST http://localhost:3001/api/import/all \
+  -F "users=@path/to/users.csv" \
+  -F "transactions=@path/to/transactions.csv"
+```
+
+### CSV File Format
+
+**users.csv** should have columns:
+- `User_ID`, `User_Name`, `Region`, `Is_Active_Sub`, `Signup_Date`, `Department`, `Company_Name`
+
+**transactions.csv** should have columns:
+- `RowId`, `User_ID`, `Model_Name`, `Conversation_ID`, `Token_Type`, `Token_Count`, `Rate_Per_1k`, `Calculated_Cost`, `Timestamp`
+
+**Note:** 
+- The import process uses upsert (update or insert), so running the import multiple times will update existing records.
+- API uploads use memory storage (no file system writes) for Docker compatibility.
+- The `data-importer` Docker service runs automatically on startup if CSV files are mounted.
+
 ## 🐳 Docker Commands
 
 ```bash
-# Build and start all services
+# Build and start all services (MongoDB, Backend, Frontend, Data Importer)
 docker-compose up -d
 
 # Rebuild and start (use after code/config changes)
 docker-compose up -d --build
+
+# Start only specific services
+docker-compose up -d mongodb backend frontend
+
+# Run data import manually
+docker-compose run --rm data-importer
 
 # View logs
 docker-compose logs -f backend
@@ -192,5 +282,38 @@ docker-compose up -d --build
 ```bash
 docker-compose build --no-cache
 docker-compose up -d
+```
+
+## 📡 API Endpoints
+
+### Health Check
+- `GET /api/health` - Server health status
+
+### Data Import
+- `POST /api/import/users` - Import users from CSV file (multipart/form-data, field: `users`)
+- `POST /api/import/transactions` - Import transactions from CSV file (multipart/form-data, field: `transactions`)
+- `POST /api/import/all` - Import both users and transactions (multipart/form-data, fields: `users`, `transactions`)
+
+### Dashboard
+- `GET /api/dashboard/summary` - Dashboard summary (KPIs)
+- `GET /api/dashboard/cost-by-model` - Cost breakdown by AI model
+- `GET /api/dashboard/daily-trends` - Daily cost trends
+- `GET /api/dashboard/monthly-trends` - Monthly trends
+- `GET /api/dashboard/token-distribution` - Token distribution (prompt vs completion)
+- `GET /api/dashboard/top-users` - Top users by spending
+- `GET /api/dashboard/regions` - Available regions
+- `GET /api/dashboard/date-range` - Available date range
+
+### Query Parameters
+
+Most dashboard endpoints support filtering:
+- `startDate` - Start date (YYYY-MM-DD)
+- `endDate` - End date (YYYY-MM-DD)
+- `region` - Filter by region
+- `limit` - Limit results (for top-users)
+
+Example:
+```
+GET /api/dashboard/summary?startDate=2024-01-01&endDate=2024-12-31&region=US
 ```
 
